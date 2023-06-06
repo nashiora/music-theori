@@ -18,14 +18,24 @@
 typedef void* theori_platform_shared_library_handle;
 typedef void* theori_platform_entity_address;
 
-typedef void* theori_plugin_handle;
-typedef void (*theori_plugin_say_hello_function)(void);
+typedef int theori_plugin_id;
+typedef struct theori_plugin theori_plugin;
 
-typedef struct theori_plugin
+typedef void* theori_plugin_handle;
+typedef void (*theori_plugin_initialize_function)(void);
+
+struct theori_plugin
 {
+    theori_plugin_id id;
     theori_plugin_handle handle;
-    theori_plugin_say_hello_function sayHello;
-} theori_plugin;
+    theori_plugin_initialize_function initialize;
+};
+
+struct theori_state
+{
+    theori_plugin** plugins;
+    size_t nPlugins;
+};
 
 THEORI_EXPORT void THEORI_FUNC
 theori_log(const char* format, ...);
@@ -51,7 +61,7 @@ theori_platform_unload_shared_library(theori_platform_shared_library_handle shar
 /// @brief Loads a :theori plugin library from the given dynamic library file.
 /// @param fileName The name of the plugin file to load. This should be a dynamic library.
 /// @return Data associated with the loaded plugin. Call `bool theori_plugin_is_loaded(theori_plugin*)` to verify loading was successful.
-THEORI_EXPORT theori_plugin THEORI_FUNC
+THEORI_EXPORT theori_plugin* THEORI_FUNC
 theori_plugin_load_from_file(const char* fileName);
 
 /// @brief Returns true if the plugin was loaded successfully and contains valid function addresses, false otherwise.
