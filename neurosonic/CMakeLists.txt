@@ -4,12 +4,10 @@ include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-#include(../music-theori)
-
 set(CMAKE_CXX_VISIBILITY_PRESET     hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
-# -------------------- theori --------------------
+# -------------------- neurosonic --------------------
 set(neurosonic_src
     "./src/private/nsc_plugin.c"
 )
@@ -36,7 +34,7 @@ generate_export_header(neurosonic
 )
 
 write_basic_package_version_file(
-    TheoriConfigVersion.cmake
+    NeurosonicConfigVersion.cmake
     VERSION 1.0.0
     COMPATIBILITY SameMajorVersion
 )
@@ -55,7 +53,7 @@ install(TARGETS neurosonic
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             COMPONENT   NSC_Development
 )
-# -------------------- theori --------------------
+# -------------------- neurosonic --------------------
 
 # -------------------- neurosonic-standalone --------------------
 add_executable(neurosonic_standalone
